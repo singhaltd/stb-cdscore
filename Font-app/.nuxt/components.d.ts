@@ -6,8 +6,8 @@ declare module 'vue' {
     'NavbarAside': typeof import("../components/navbar/aside.vue")['default'],
     'NavbarAuthtop': typeof import("../components/navbar/authtop.vue")['default'],
     'NavbarMega': typeof import("../components/navbar/mega.vue")['default'],
-    'ProfileCustomer': typeof import("../components/profile/customer.vue")['default'],
     'SelectFilter': typeof import("../components/select/filter.vue")['default'],
+    'ProfileCustomer': typeof import("../components/profile/customer.vue")['default'],
     'TableAvatar': typeof import("../components/table/avatar.vue")['default'],
     'TableCustomer': typeof import("../components/table/customer.vue")['default'],
     'TableResultq': typeof import("../components/table/resultq.vue")['default'],
@@ -22,8 +22,8 @@ declare module 'vue' {
     'LazyNavbarAside': typeof import("../components/navbar/aside.vue")['default'],
     'LazyNavbarAuthtop': typeof import("../components/navbar/authtop.vue")['default'],
     'LazyNavbarMega': typeof import("../components/navbar/mega.vue")['default'],
-    'LazyProfileCustomer': typeof import("../components/profile/customer.vue")['default'],
     'LazySelectFilter': typeof import("../components/select/filter.vue")['default'],
+    'LazyProfileCustomer': typeof import("../components/profile/customer.vue")['default'],
     'LazyTableAvatar': typeof import("../components/table/avatar.vue")['default'],
     'LazyTableCustomer': typeof import("../components/table/customer.vue")['default'],
     'LazyTableResultq': typeof import("../components/table/resultq.vue")['default'],
@@ -40,8 +40,8 @@ export const ModalSm: typeof import("../components/modal/sm.vue")['default']
 export const NavbarAside: typeof import("../components/navbar/aside.vue")['default']
 export const NavbarAuthtop: typeof import("../components/navbar/authtop.vue")['default']
 export const NavbarMega: typeof import("../components/navbar/mega.vue")['default']
-export const ProfileCustomer: typeof import("../components/profile/customer.vue")['default']
 export const SelectFilter: typeof import("../components/select/filter.vue")['default']
+export const ProfileCustomer: typeof import("../components/profile/customer.vue")['default']
 export const TableAvatar: typeof import("../components/table/avatar.vue")['default']
 export const TableCustomer: typeof import("../components/table/customer.vue")['default']
 export const TableResultq: typeof import("../components/table/resultq.vue")['default']
@@ -56,8 +56,8 @@ export const LazyModalSm: typeof import("../components/modal/sm.vue")['default']
 export const LazyNavbarAside: typeof import("../components/navbar/aside.vue")['default']
 export const LazyNavbarAuthtop: typeof import("../components/navbar/authtop.vue")['default']
 export const LazyNavbarMega: typeof import("../components/navbar/mega.vue")['default']
-export const LazyProfileCustomer: typeof import("../components/profile/customer.vue")['default']
 export const LazySelectFilter: typeof import("../components/select/filter.vue")['default']
+export const LazyProfileCustomer: typeof import("../components/profile/customer.vue")['default']
 export const LazyTableAvatar: typeof import("../components/table/avatar.vue")['default']
 export const LazyTableCustomer: typeof import("../components/table/customer.vue")['default']
 export const LazyTableResultq: typeof import("../components/table/resultq.vue")['default']

@@ -7,7 +7,7 @@ useHead({
 </script>
 
 <template>
-  <div>
+  <div id="app">
     <NavbarAuthtop />
     <div class="flex h-full w-full">
       <div style="width: 275px">

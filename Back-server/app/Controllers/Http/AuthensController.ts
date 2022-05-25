@@ -35,6 +35,16 @@ export default class AuthensController {
         }
     }
 
+    public async permisAccess({ auth, response }: HttpContextContract) {
+        try {
+            const dtAuth = await auth.use('api').user
+            const User = await SstmUser.query().select('username','cust_id').where('username', dtAuth?.user_id).preload('personal').firstOrFail()
+            return User
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     public async CreateUser({ request, response }: HttpContextContract) {
         const { ipallow } = request.only(['ipallow'])
         const ReqBody = schema.create({

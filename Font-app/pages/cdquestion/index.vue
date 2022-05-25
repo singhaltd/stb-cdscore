@@ -1,7 +1,31 @@
+<script setup>
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
+const selectedTab = ref(0);
+definePageMeta({
+  layout: "auth",
+  title:'Params ຄຳຖາມ'
+});
+
+const { data: custType } = await useAsyncData("custType", () =>
+  $fetch("http://10.0.34.37:3333/api/v1/crd/cust_type")
+);
+
+const { data: loanType } = await useAsyncData("loanType", () =>
+  $fetch("http://10.0.34.37:3333/api/v1/crd/loan_type")
+);
+
+const { data: collateralType } = await useAsyncData("collateralType", () =>
+  $fetch("http://10.0.34.37:3333/api/v1/crd/collateral_type")
+);
+
+function changeTab(index) {
+  selectedTab.value = index;
+}
+</script>
 <template>
-  <div class="mt-4">
+  <div class="mt-4 w-full px-8">
     <TabGroup>
-      <TabList class="tabs">
+      <TabList class="tabs mt-5">
         <Tab v-slot="{ selected }">
           <div
             :class="[
@@ -36,7 +60,7 @@
           </div>
         </Tab>
       </TabList>
-      <TabPanels>
+      <TabPanels class="mt-5">
         <TabPanel>
           <div class="overflow-x-auto w-full">
             <table class="table table-compact w-full">
@@ -81,7 +105,7 @@
             </table>
           </div>
         </TabPanel>
-        <TabPanel>
+        <!-- <TabPanel>
           <div class="overflow-x-auto w-full">
             <table class="table table-compact w-full">
               <thead>
@@ -102,35 +126,8 @@
               </tbody>
             </table>
           </div>
-        </TabPanel>
+        </TabPanel> -->
       </TabPanels>
     </TabGroup>
   </div>
 </template>
-
-<script setup>
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
-const selectedTab = ref(0);
-definePageMeta({
-  layout: "auth",
-});
-
-const { data: custType } = await useAsyncData("custType", () =>
-  $fetch("http://10.0.34.37:3333/api/v1/crd/customer_type")
-);
-
-const { data: loanType } = await useAsyncData("loanType", () =>
-  $fetch("http://10.0.34.37:3333/api/v1/crd/loan_type")
-);
-
-const { data: collateralType } = await useAsyncData("collateralType", () =>
-  $fetch("http://10.0.34.37:3333/api/v1/crd/collateral_type")
-);
-
-function changeTab(index) {
-  selectedTab.value = index;
-}
-</script>
-
-<style>
-</style>

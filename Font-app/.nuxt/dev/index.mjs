@@ -5,7 +5,7 @@ import { join } from 'path';
 import { mkdirSync } from 'fs';
 import { parentPort, threadId } from 'worker_threads';
 import { provider, isWindows } from 'file://D:/2022/PJ/stb-cdscore/Font-app/node_modules/std-env/dist/index.mjs';
-import { toEventHandler, defineEventHandler, handleCacheHeaders, createEvent, createApp, createRouter, lazyEventHandler, eventHandler, useQuery } from 'file://D:/2022/PJ/stb-cdscore/Font-app/node_modules/h3/dist/index.mjs';
+import { toEventHandler, defineEventHandler, handleCacheHeaders, createEvent, createApp, createRouter, lazyEventHandler, useCookie, eventHandler, useQuery } from 'file://D:/2022/PJ/stb-cdscore/Font-app/node_modules/h3/dist/index.mjs';
 import { createFetch as createFetch$1, Headers } from 'file://D:/2022/PJ/stb-cdscore/Font-app/node_modules/ohmyfetch/dist/node.mjs';
 import destr from 'file://D:/2022/PJ/stb-cdscore/Font-app/node_modules/destr/dist/index.mjs';
 import { createRouter as createRouter$1 } from 'file://D:/2022/PJ/stb-cdscore/Font-app/node_modules/radix3/dist/index.mjs';
@@ -22,7 +22,7 @@ import { createDefu } from 'file://D:/2022/PJ/stb-cdscore/Font-app/node_modules/
 import htmlTemplate from 'file://D:/2022/PJ/stb-cdscore/Font-app/.nuxt/views/document.template.mjs';
 import { renderToString as renderToString$2 } from 'file://D:/2022/PJ/stb-cdscore/Font-app/node_modules/vue/server-renderer/index.mjs';
 
-const _runtimeConfig = {app:{baseURL:"\u002F",buildAssetsDir:"\u002F_nuxt\u002F",cdnURL:""},nitro:{routes:{},envPrefix:"NUXT_"},public:{}};
+const _runtimeConfig = (function(a){return {app:{baseURL:"\u002F",buildAssetsDir:"\u002F_nuxt\u002F",cdnURL:a},nitro:{routes:{},envPrefix:"NUXT_"},public:{BASE_URL:"10.0.34.37"},secretKey:a,base_api:"10.0.34.37:3333"}}(""));
 const ENV_PREFIX = "NITRO_";
 const ENV_PREFIX_ALT = _runtimeConfig.nitro.envPrefix ?? process.env.NITRO_ENV_PREFIX ?? "_";
 const getEnv = (key) => {
@@ -36,8 +36,8 @@ const mergeWithEnvVariables = createDefu((obj, key, _value, namespace) => {
     return true;
   }
 });
-const config = deepFreeze(mergeWithEnvVariables(_runtimeConfig, _runtimeConfig));
-const useRuntimeConfig = () => config;
+const config$2 = deepFreeze(mergeWithEnvVariables(_runtimeConfig, _runtimeConfig));
+const useRuntimeConfig = () => config$2;
 function deepFreeze(object) {
   const propNames = Object.getOwnPropertyNames(object);
   for (const name of propNames) {
@@ -301,9 +301,13 @@ const errorHandler = (async function errorhandler(_error, event) {
   event.res.end(html);
 });
 
+const _eebaab = () => Promise.resolve().then(function () { return users$1; });
+const _9907a8 = () => Promise.resolve().then(function () { return userProfile$1; });
 const _0eb80e = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
+  { route: '/api/users', handler: _eebaab, lazy: true, method: undefined },
+  { route: '/api/userProfile', handler: _9907a8, lazy: true, method: undefined },
   { route: '/__nuxt_error', handler: _0eb80e, lazy: true, method: undefined },
   { route: '/**', handler: _0eb80e, lazy: true, method: undefined }
 ];
@@ -375,6 +379,38 @@ server.listen(listenAddress, () => {
 });
 process.on("unhandledRejection", (err) => console.error("[nitro] [dev] [unhandledRejection] " + err));
 process.on("uncaughtException", (err) => console.error("[nitro] [dev] [uncaughtException] " + err));
+
+const config$1 = useRuntimeConfig().base_api;
+const users = async (req, res) => {
+  let Auth = useCookie(req, "autKey");
+  const data = await $fetch("http://" + config$1 + "/api/v1/users", {
+    headers: {
+      "Authorization": "Bearer " + Auth
+    }
+  });
+  return { data };
+};
+
+const users$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  'default': users
+});
+
+const config = useRuntimeConfig().base_api;
+const userProfile = async (req, res) => {
+  let Auth = useCookie(req, "autKey");
+  const data = await $fetch("http://" + config + "/api/v1/profile", {
+    headers: {
+      "Authorization": "Bearer " + Auth
+    }
+  });
+  return { data };
+};
+
+const userProfile$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  'default': userProfile
+});
 
 function buildAssetsURL(...path) {
   return joinURL(publicAssetsURL(), useRuntimeConfig().app.buildAssetsDir, ...path);

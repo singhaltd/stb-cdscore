@@ -4,7 +4,15 @@ import { ref, reactive } from "vue";
 definePageMeta({
   layout: "auth",
   title: "ຈັດການຜູ້ໃຊ້ລະບົບ",
+  middleware: ["auth"],
 });
+const { data: listUsers } = await useLazyAsyncData("listUsers", () =>
+  $fetch("/api/users")
+);
+watch(listUsers, (NewUsers) => {
+  console.log(NewUsers);
+});
+
 const user = reactive({
   username: ref(""),
   fullname: ref(""),
@@ -13,18 +21,8 @@ const user = reactive({
   email: ref(""),
   mobile: ref(""),
 });
-const { data: listUsers } = await useAsyncData("listUsers", () =>
-  $fetch("http://10.0.34.37:3333/api/v1/users")
-);
-const createUser = async () => {
-  await $fetch("http://10.0.34.37:3333/api/v1/auth/create", {
-    method: "POST",
-    Headers: {
-      "Content-Type": "application/json",
-    },
-    body: user,
-  });
-};
+
+
 </script>
 <template>
   <div class="w-full mt-5 px-5">
@@ -93,7 +91,7 @@ const createUser = async () => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="ui in listUsers.data" :key="ui">
+          <tr v-for="ui in listUsers.data.data.data" :key="ui">
             <th>{{ ui.fullname }}</th>
             <td>001</td>
             <td>{{ ui.mobile }}</td>
@@ -102,6 +100,16 @@ const createUser = async () => {
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="btn-group" v-if="listUsers.data.data.meta.total > 1">
+      <input
+        type="radio"
+        name="options"
+        data-title="1"
+        class="btn"
+        v-for="ip in listUsers.data.data.meta"
+        :key="ip"
+      />
     </div>
   </div>
 </template>

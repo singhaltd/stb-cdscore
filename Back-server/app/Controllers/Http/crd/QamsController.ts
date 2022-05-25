@@ -49,6 +49,23 @@ export default class QamsController {
         }
     }
 
+    public async getCustType({ response }) {
+        try {
+            const rCustType = await MCustType.all()
+
+            response.status(200)
+            return {
+                error: false,
+                code: '200',
+                message: '',
+                data: rCustType
+            };
+        } catch (error) {
+
+        }
+    }
+    
+
     public async getCollaterType({ response }) {
         try {
             const rLoan = await MCollateral.all()

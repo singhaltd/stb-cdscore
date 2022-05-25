@@ -85,14 +85,14 @@ declare global {
   const useCssVars: typeof import('vue')['useCssVars']
   const useSlots: typeof import('vue')['useSlots']
   const useTransitionState: typeof import('vue')['useTransitionState']
-  const createCustomer: typeof import('../../composables/customer')['createCustomer']
+  const signInUser: typeof import('../../composables/useAuth')['signInUser']
+  const initUser: typeof import('../../composables/useAuth')['initUser']
   const useLocale: typeof import('../../composables/locale')['useLocale']
   const useDefaultLocale: typeof import('../../composables/locale')['useDefaultLocale']
   const useLocales: typeof import('../../composables/locale')['useLocales']
   const useLocaleDate: typeof import('../../composables/locale')['useLocaleDate']
   const a: typeof import('../../composables/var')['a']
-  const signInUser: typeof import('../../composables/useAuth')['signInUser']
-  const initUser: typeof import('../../composables/useAuth')['initUser']
+  const createCustomer: typeof import('../../composables/customer')['createCustomer']
   const definePageMeta: typeof import('../../node_modules/nuxt/dist/pages/runtime/composables')['definePageMeta']
 }
 export {}
