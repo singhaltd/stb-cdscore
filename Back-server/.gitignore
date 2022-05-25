@@ -4,4 +4,5 @@ coverage
 .vscode
 .DS_STORE
 .env
+Font-app/node_modules
 tmp

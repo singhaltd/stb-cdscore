@@ -1,6 +1,7 @@
 import { GuardsList } from '@ioc:Adonis/Addons/Auth'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { AuthenticationException } from '@adonisjs/auth/build/standalone'
+import SstmUser from 'App/Models/User/SstmUser'
 
 /**
  * Auth middleware is meant to restrict un-authenticated access to a given route
@@ -60,17 +61,24 @@ export default class AuthMiddleware {
   /**
    * Handle request
    */
-  public async handle (
-    { auth }: HttpContextContract,
+  public async handle(
+    { auth, request }: HttpContextContract,
     next: () => Promise<void>,
     customGuards: (keyof GuardsList)[]
   ) {
-    /**
-     * Uses the user defined guards or the default guard mentioned in
-     * the config file
-     */
     const guards = customGuards.length ? customGuards : [auth.name]
     await this.authenticate(auth, guards)
+    if (await this.authenticate(auth, guards)) {
+      const user = await SstmUser.query().where('username', auth.user?.user_id).firstOrFail()
+      if (user.restrictAuth == 'T' && user.restrictAddress != request.ip()) {
+        throw new AuthenticationException(
+          'Service Not Allow',
+          'E_UNAUTHORIZED_ACCESS',
+          '',
+          '',
+        )
+      }
+    }
     await next()
   }
 }

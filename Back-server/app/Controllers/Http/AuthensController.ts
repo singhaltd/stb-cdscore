@@ -25,13 +25,24 @@ export default class AuthensController {
         }
     }
 
+    public async profile({ auth, response }: HttpContextContract) {
+        try {
+            const dtAuth = await auth.use('api').user
+            const User = await SstmUser.query().select('username','cust_id').where('username', dtAuth?.user_id).preload('personal').firstOrFail()
+            return User
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     public async CreateUser({ request, response }: HttpContextContract) {
+        const { ipallow } = request.only(['ipallow'])
         const ReqBody = schema.create({
             username: schema.string(),
             fullname: schema.string(),
             email: schema.string(),
             mobile: schema.string(),
-            password: schema.string()
+            password: schema.string(),
         })
 
         const playload = await request.validate({ schema: ReqBody })
@@ -39,8 +50,8 @@ export default class AuthensController {
 
         try {
             response.status(200)
-            return await SstmUser.create(playload)
-        } catch (e) { 
+            return await SstmUser.create(Object.assign(playload, { restrictAddress: ipallow ? ipallow : '' }))
+        } catch (e) {
             console.log(e)
         }
     }
