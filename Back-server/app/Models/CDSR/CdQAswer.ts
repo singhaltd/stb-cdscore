@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 
 export default class CdQAswer extends BaseModel {
   public static table = 'cdsr_question_answ'
@@ -15,11 +15,16 @@ export default class CdQAswer extends BaseModel {
   public group_type: string
   @column()
   public question_id: number
-  @column()
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => CdQAswer, {
+    localKey: 'id',
+    foreignKey: 'question_id',
+  })
+  public banswers: BelongsTo<typeof CdQAswer>
 }

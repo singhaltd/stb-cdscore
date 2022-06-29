@@ -1,4 +1,4 @@
-import { BaseModel, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import CdQAswer from 'App/Models/CDSR/CdQAswer'
 import CdApproch from './CdApproch'
 
@@ -12,10 +12,12 @@ export default class CdQuestion extends BaseModel {
   public description: string
   @column({ columnName: 'approach' })
   public approach: string
+  @column({ columnName: 'input_type' })
+  public input: string
 
-  @hasOne(()=> CdApproch,{
-    localKey:'approach',
-    foreignKey:'id'
+  @hasOne(() => CdApproch, {
+    localKey: 'approach',
+    foreignKey: 'id'
   })
   public aprch: HasOne<typeof CdApproch>
   @hasMany(() => CdQAswer, {
@@ -23,5 +25,4 @@ export default class CdQuestion extends BaseModel {
     foreignKey: 'question_id',
   })
   public answers: HasMany<typeof CdQAswer>
-  
 }

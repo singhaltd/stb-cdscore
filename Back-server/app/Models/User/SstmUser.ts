@@ -15,10 +15,14 @@ export default class SstmUser extends BaseModel {
   public mobile: string
   @column()
   public email: string
-
+  @column()
+  public role_id: string
+  @column()
+  public branch_code: string
+  @column()
+  public dep_id: number
   @column()
   public password: string
-
   @column()
   public shal: string
 
@@ -53,6 +57,9 @@ export default class SstmUser extends BaseModel {
       user.restrictAuth = 'T'
     } else {
       user.restrictAuth = 'F'
+    }
+    if (!user.$dirty.role_id) {
+      user.role_id = 'GUEST'
     }
   }
 }
