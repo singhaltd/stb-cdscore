@@ -1,4 +1,4 @@
-import { BaseModel, column, hasMany, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import MNavlink from '../Permiss/MNavlink'
 
 export default class MuRole extends BaseModel {

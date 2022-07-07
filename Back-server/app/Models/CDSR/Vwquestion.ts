@@ -1,4 +1,4 @@
-import { BaseModel, belongsTo, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import CdQAswer from './CdQAswer'
 import Mcusttxn from './Mcusttxn'
 

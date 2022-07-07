@@ -16,4 +16,5 @@ Route.group(() => {
     // organization
     Route.get('/departments', 'ORG/DepartsController.index')
     Route.get('/branches', 'ORG/BranchesController.index')
+    Route.get('/roles', 'AuthensController.RoleIndex')
 }).prefix('api/v1')

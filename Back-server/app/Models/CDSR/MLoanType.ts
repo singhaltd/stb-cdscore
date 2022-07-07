@@ -1,4 +1,4 @@
-import { BaseModel, column, hasManyThrough, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import CdQuestion from './CdQuestion'
 
 export default class MLoanType extends BaseModel {

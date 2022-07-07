@@ -25,10 +25,24 @@ export default class AuthensController {
                 return await auth.use('api').attempt(playload.username, playload.password)
             }
         } catch (e) {
+            console.log(e)
             return {
                 error: true,
                 message: e.responseText
             }
+        }
+    }
+
+    public async RoleIndex({ response }: HttpContextContract) {
+        try {
+            const role = await MuRole.query()
+            response.status(200)
+            return {
+                error: false,
+                data: role
+            }
+        } catch (e) {
+            console.log(e)
         }
     }
 
@@ -62,6 +76,7 @@ export default class AuthensController {
             branch_code: schema.string(),
             dep_id: schema.number(),
             password: schema.string(),
+            role: schema.string()
         })
 
         const playload = await request.validate({ schema: ReqBody })
@@ -87,7 +102,8 @@ export default class AuthensController {
                 branch_code: playload.branch_code,
                 dep_id: playload.dep_id,
                 username: playload.username,
-                password: playload.password
+                password: playload.password,
+                role_id: playload.role
             })
             response.status(200)
             return {
