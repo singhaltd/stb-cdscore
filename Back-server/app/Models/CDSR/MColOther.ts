@@ -28,7 +28,11 @@ export default class MColOther extends BaseModel {
   @column()
   public cust_no:string
   @column()
-  public col_type:number
+  public cate:number
+  @column()
+  public seq:number
+  @column()
+  public fcy_total:number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -38,8 +42,9 @@ export default class MColOther extends BaseModel {
 
   @beforeSave()
   public static async hasColtype(colo: MColOther){
-    if(!colo.$dirty.col_type){
-      colo.col_type = 7
+    if(!colo.$dirty.cate){
+      colo.cate = 8
+      colo.total = colo.price
     }
   }
 }

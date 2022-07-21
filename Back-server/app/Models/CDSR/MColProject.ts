@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 
 export default class MColProject extends BaseModel {
   public static table = 'cdsr_col_projects'
@@ -35,10 +35,28 @@ export default class MColProject extends BaseModel {
   public district: number
   @column()
   public maker: string
+  @column()
+  public seq: number
+  @column()
+  public cate: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @beforeSave()
+  public static async createVhicle(cl: MColProject) {
+    const Seq = await MColProject.query().max('seq').where('cust_no', cl.cust_no).andWhere('cate', cl.cate)
+    if (cl.$dirty.cate && cl.$dirty.cate == 7) {
+      cl.seq = (Seq[0].$extras.max || 0) + 1
+      cl.cur_value = (cl.value || 0) - (cl.pi_value || 0)
+      cl.lcy_total = (((cl.value || 0) - (cl.pi_value || 0)) * 70 / 100)
+    } else if (cl.$dirty.cate && cl.$dirty.cate != 7) {
+      cl.seq = (Seq[0].$extras.max || 0) + 1
+      cl.lcy_total = cl.value
+    }
+
+  }
 }

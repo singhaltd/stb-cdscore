@@ -32,7 +32,15 @@ export default class MColSolid extends BaseModel {
   @column()
   public cust_no: string
   @column()
-  public maker:string
+  public maker: string
+
+  @column()
+  public building_key: string
+  @column()
+  public area: string
+
+  @column({ columnName: 'seq' })
+  public seq: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -41,8 +49,8 @@ export default class MColSolid extends BaseModel {
   public updatedAt: DateTime
 
   @beforeSave()
-  public static async hasColtype(colo: MColSolid){
-    if(!colo.$dirty.col_type){
+  public static async hasColtype(colo: MColSolid) {
+    if (!colo.$dirty.col_type) {
       colo.cate = 2
     }
   }

@@ -29,6 +29,8 @@ export default class MColAccount extends BaseModel {
   public maker:string
   @column()
   public cust_no:string
+  @column()
+  public seq:number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

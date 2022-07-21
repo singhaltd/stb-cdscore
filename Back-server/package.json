@@ -19,10 +19,13 @@
   },
   "dependencies": {
     "@adonisjs/auth": "^8.1.0",
+    "@adonisjs/bouncer": "^2.3.0",
     "@adonisjs/core": "^5.7.5",
     "@adonisjs/lucid": "^17.2.0",
     "@adonisjs/repl": "^3.1.10",
     "adonis-lucid-filter": "^4.1.0",
+    "argon2": "^0.28.7",
+    "crypto-js": "^4.1.1",
     "luxon": "^2.3.2",
     "moment": "^2.29.3",
     "oracledb": "^5.3.0",

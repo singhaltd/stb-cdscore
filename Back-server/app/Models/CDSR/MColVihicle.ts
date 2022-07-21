@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 
 export default class MColVihicle extends BaseModel {
   public static table = 'cdsr_col_vehicle'
@@ -7,6 +7,8 @@ export default class MColVihicle extends BaseModel {
   public id: number
   @column({ columnName: 'vehicle_brand' })
   public brand: string
+  @column({ columnName: 'vehicle_type_id' })
+  public type_id: number
   @column({ columnName: 'vehicle_model' })
   public model: string
   @column({ columnName: 'vehicle_color' })
@@ -28,13 +30,32 @@ export default class MColVihicle extends BaseModel {
   @column({ columnName: 'vehicle_values' })
   public vh_value: number
   @column()
+  public vh_registration: string
+  @column()
   public cust_no: string
   @column()
   public maker: string
+  @column()
+  public seq: number
+  @column()
+  public ccy: string
+  @column()
+  public cate: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @beforeSave()
+  public static async createVhicle(cl: MColVihicle) {
+    const Seq = await MColVihicle.query().max('seq').where('cust_no', cl.cust_no)
+    console.log(Seq[0])
+    if (!cl.$dirty.cate) {
+      cl.cate = 5
+      cl.seq = (Seq[0].$extras.max || 0) + 1
+    }
+
+  }
 }

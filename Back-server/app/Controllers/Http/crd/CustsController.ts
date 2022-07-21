@@ -42,7 +42,7 @@ export default class CustsController {
     }
     /// Customer Creation
     public async storeCustomer({ request, auth, response }: HttpContextContract) {
-        const { company, sex, intrate, email, perpose } = request.all();
+        const { company, sex, intrate, email, perpose, cust_no } = request.all();
         const dtAuth = await auth.use('api').user
         const custno = await ulity.genrrn('CUST', dtAuth?.branch_code)
         const reqBody = schema.create({
@@ -59,28 +59,37 @@ export default class CustsController {
         })
 
         const payload = await request.validate({ schema: reqBody })
+        try {
+            const Cust = await MCustomer.create({
+                cust_no: cust_no !== '' ? cust_no : custno,
+                fullname: payload.firstname + ' ' + payload.lastname,
+                email: email,
+                mobile: payload.mobile,
+                finance: payload.finance,
+                ccy: payload.ccy,
+                perpose: perpose,
+                sex: sex,
+                period_type: payload.cycle_type,
+                period: payload.cycle,
+                company: company,
+                cust_type: payload.cust_type,
+                loan_type: payload.loan_type,
+                maker: dtAuth?.user_id,
+                branch_code: dtAuth?.branch_code,
+                int_rate: intrate,
+                exp: payload.exp
+            })
+            return {
+                error: false,
+                data: Cust
+            }
+        } catch (error) {
+            return {
+                error: true,
+                data: error
+            }
+        }
 
-        const Cust = await MCustomer.create({
-            cust_no: custno,
-            fullname: payload.firstname + ' ' + payload.lastname,
-            email: email,
-            mobile: payload.mobile,
-            finance: payload.finance,
-            ccy: payload.ccy,
-            perpose: perpose,
-            sex: sex,
-            period_type: payload.cycle_type,
-            period: payload.cycle,
-            company: company,
-            cust_type: payload.cust_type,
-            loan_type: payload.loan_type,
-            maker: dtAuth?.user_id,
-            branch_code: dtAuth?.branch_code,
-            int_rate: intrate,
-            exp: payload.exp
-        })
-
-        return Cust
 
     }
 

@@ -8,8 +8,13 @@ export default class AppProvider {
     // Register your own bindings
   }
 
-  public async boot () {
-    // IoC container is ready
+  public async boot() {
+    const { PlainTextDriver } = await import('./HashDriver')
+    const Hash = this.app.container.use('Adonis/Core/Hash')
+
+    Hash.extend('plainText', () => {
+      return new PlainTextDriver()
+    })
   }
 
   public async ready () {

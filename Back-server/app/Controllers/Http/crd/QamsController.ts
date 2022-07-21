@@ -12,6 +12,7 @@ import MCustType from "App/Models/CDSR/MCustType";
 import MExpType from 'App/Models/CDSR/MExpType';
 import MLoanType from "App/Models/CDSR/MLoanType";
 import Vwquestion from 'App/Models/CDSR/Vwquestion';
+import Logger from '@ioc:Adonis/Core/Logger'
 
 
 export default class QamsController {
@@ -44,7 +45,7 @@ export default class QamsController {
             const data = await CdApproch.query().preload('vQuestions', async (q) => {
                 q.preload('weight', (q) => {
                     q.select('weight', 'answ_id', 'grade').where('cust_no', params.cust_no)//.andWhereRaw(`'${customer.exp}' = any(exp)`)
-                }).andWhere('cust_type', customer.cust_type).andWhere('exp_id', customer.exp).andWhere('loan_type',customer.loan_type)
+                }).andWhere('cust_type', customer.cust_type).andWhere('exp_id', customer.exp).andWhere('loan_type', customer.loan_type)
             })
             // const x = await Database.from('cdsr_cust_authtxns').sum('weight').as('x')
             response.status(200)
@@ -67,12 +68,11 @@ export default class QamsController {
             const data = await CdApproch.query().preload('vQuestions', async (q) => {
                 q.preload('weight', (query) => {
                     query.select('answ_id').where('cust_no', customer.cust_no)
-                }).preload('answers',(builder)=> {
-                    builder.whereRaw(`'${customer.exp}' = any(exp)`).orderBy('grade','asc').andWhere('cust_type', customer.cust_type)
-                    //whereRaw(`'${customer.cust_type}' = any(cust_type_em)`)
-                }).andWhere('cust_type', customer.cust_type).andWhere('exp_id', customer.exp).andWhere('loan_type',customer.loan_type)
+                }).preload('answers', (builder) => {
+                    builder.whereRaw(`'${customer.exp}' = any(exp) and '${customer.cust_type}' = any(em_cust_type)`).orderBy('grade', 'asc')
+                    // andWhere('cust_type', customer.cust_type)
+                }).andWhere('cust_type', customer.cust_type).andWhere('exp_id', customer.exp).andWhere('loan_type', customer.loan_type)
             })
-            // console.log(data)
             response.status(200)
             return {
                 error: false,

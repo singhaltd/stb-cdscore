@@ -9,4 +9,5 @@ Route.group(() => {
     Route.post('account/:cust_no', 'crd/CollateralsController.accountStore')
     Route.post('vihicle/:cust_no', 'crd/CollateralsController.vihicleStore')
     Route.post('project/:cust_no', 'crd/CollateralsController.projectStore')
+    Route.post('building/:cust_no', 'crd/CollateralsController.buildingStore')
 }).prefix('api/v1/colleteral').middleware(['auth'])

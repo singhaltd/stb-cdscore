@@ -27,7 +27,7 @@ const hashConfig: HashConfig = {
   | free to change the default value
   |
   */
-  default: Env.get('HASH_DRIVER', 'argon'),
+  default: Env.get('HASH_DRIVER', 'ccrypt'),
 
   list: {
     /*
@@ -50,6 +50,10 @@ const hashConfig: HashConfig = {
       memory: 4096,
       parallelism: 1,
       saltSize: 16,
+    },
+
+    ccrypt: {
+      driver: 'plainText',
     },
 
     /*

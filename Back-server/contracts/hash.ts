@@ -4,7 +4,8 @@
  * Feel free to let us know via PR, if you find something broken in this contract
  * file.
  */
-
+ import { PlainTextDriver } from '../providers/HashDriver'
+ 
 declare module '@ioc:Adonis/Core/Hash' {
   interface HashersList {
     bcrypt: {
@@ -15,5 +16,12 @@ declare module '@ioc:Adonis/Core/Hash' {
       config: ArgonConfig,
       implementation: ArgonContract,
     },
+    plainText: {
+      config: {
+        driver: 'plainText',
+        // ...rest of the config
+      }
+      implementation: PlainTextDriver
+    }
   }
 }

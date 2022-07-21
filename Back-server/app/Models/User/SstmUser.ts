@@ -62,4 +62,9 @@ export default class SstmUser extends BaseModel {
       user.role_id = 'GUEST'
     }
   }
+  @hasOne(() => MDepartment, {
+    localKey: 'dep_id',
+    foreignKey: 'id'
+  })
+  public dept: HasOne<typeof MDepartment>
 }

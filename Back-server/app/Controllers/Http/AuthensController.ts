@@ -5,6 +5,7 @@ import MuRole from 'App/Models/User/MuRole'
 import SstmUser from 'App/Models/User/SstmUser'
 import Ulity from 'App/Middleware/Ulity'
 import Database from '@ioc:Adonis/Lucid/Database'
+import Hash from '@ioc:Adonis/Core/Hash'
 const ulity = new Ulity()
 export default class AuthensController {
 
@@ -115,6 +116,47 @@ export default class AuthensController {
         }
     }
 
+    public async UpdateUser({ request, response }: HttpContextContract) {
+        const { ipallow, email, cust_no } = request.all()
+        const ReqBody = schema.create({
+            firstname: schema.string(),
+            lastname: schema.string(),
+            mobile: schema.string(),
+            branch_code: schema.string(),
+            dep_id: schema.number(),
+            role: schema.string()
+        })
+
+        const playload = await request.validate({ schema: ReqBody })
+
+
+        try {
+            /// create Personal Data
+            await MUpersonal.query().where('cust_id', cust_no).update({
+                firstname: playload.firstname,
+                lastname: playload.lastname,
+                email: email,
+                mobile: playload.mobile,
+
+            })
+            await SstmUser.query().where('cust_id', cust_no).update({
+                fullname: playload.firstname + ' ' + playload.lastname,
+                email: email,
+                mobile: playload.mobile,
+                branch_code: playload.branch_code,
+                dep_id: playload.dep_id,
+                role_id: playload.role
+            })
+            response.status(200)
+            return {
+                error: false,
+                message: 'success'
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
 
     public async signout({ auth, response }: HttpContextContract) {
         try {
@@ -154,6 +196,36 @@ export default class AuthensController {
             }
         } catch (error) {
 
+        }
+    }
+
+    public async passReset({ auth, request, response }: HttpContextContract) {
+        const { od_password, password } = request.all()
+        let hasPass = await Hash.make(password)
+
+        try {
+            const dtAuth = await auth.use('api').user
+            // const hashedPassword = await Hash.make(user.password)
+            if (await Hash.verify(dtAuth?.password, od_password)) {
+                await SstmUser.query().where('cust_id', dtAuth?.cust_id).update({ password: hasPass })
+                response.status(200)
+                return {
+                    error: false,
+                    data: 'success'
+                }
+            } else {
+                response.status(200)
+                return {
+                    error: true,
+                    data: 'ກາລຸນາປ້ອນລະຫັດເກົ່າໃຫ້ຖືກຕ້ອງ'
+                }
+            }
+
+        } catch (error) {
+            return {
+                error: true,
+                data: error
+            }
         }
     }
 }
